@@ -358,17 +358,105 @@ bot.on('message', message => {
 
 })
 
-/*bot.on('messageReactionAdd', (reaction, user) => {
-    //bot.channels.get("565967392589611018").send( + " " + user)
-    emote = reaction.emoji.name
-    if(!reaction.me){
-        reaction.message.clearReactions()
-        .then(function(){
-            reaction.message.react(emote)
-        })
+bot.on('raw', event => {
+    var eventName = event.t
+    if (eventName == 'MESSAGE_REACTION_ADD') {
+        if (bot.channels.get(event.d.channel_id).messages.has(event.d.message_id)) {
+            //console.log("cached")
+            return
+        } else {
+            //console.log("not cached")
+            bot.channels.get(event.d.channel_id).fetchMessage(event.d.message_id)
+                .then(msg => {
+                    var msgReaction = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id)
+                    var user = bot.users.get(event.d.user_id)
+                    bot.emit('messageReactionAdd', msgReaction, user)
+                })
+        }
     }
-    console.log(reaction)
-})*/
+})
+
+bot.on('messageReactionAdd', (reaction, user) => {
+    //console.log(reaction)
+    switch (reaction.emoji.name) {
+        case "TheDivision":
+            var roleName = "The Division 2"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "RocketLeague":
+            var roleName = "Rocket League"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "Warframe":
+            var roleName = "Warframe"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "Trine":
+            var roleName = "Trine"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "LoL":
+            var roleName = "League of Legends"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "Satisfactory":
+            var roleName = "Satisfactory"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+
+        case "Dauntless":
+            var roleName = "Dauntless"
+            var role = reaction.message.guild.roles.find(role => role.name.toLowerCase() == roleName.toLowerCase())
+            if (role) {
+                var member = reaction.message.guild.members.find(member => member.id == user.id)
+                if (member) {
+                    member.addRole(role.id)
+                }
+            }
+            break;
+    }
+})
 
 bot.on("guildMemberRemove", member => {
     member.guild.channels.find("name", "général").send(member + " vient de quitter le serveur :cry:. On ne l'oubliera jamais !\nIl etait un valeureux Tenno !")
