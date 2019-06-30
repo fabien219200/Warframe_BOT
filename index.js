@@ -556,13 +556,14 @@ bot.on('messageReactionRemove', (reaction, user) => {
     }
 })
 
-bot.on("guildMemberRemove", member => {
-    member.guild.channels.find("name", "général").send(member + " vient de quitter le serveur :cry:. On ne l'oubliera jamais !\nIl etait un valeureux Tenno !")
+bot.on('guildMemberAdd', (member) => {
+    var role = member.guild.roles.find(role => role.name.toLowerCase() == "membres")
+    member.addRole(role.id)
 })
 
-/*bot.on('guildMemberAdd', member => {
-    member.addRole(member.guild.roles.find("name", "Inconnu au bataillon"))
-})*/
+bot.on("guildMemberRemove", member => {
+    member.guild.channels.find("name", "bienvenue").send(member + " vient de quitter le serveur :cry:. On ne l'oubliera jamais !\nIl etait un valeureux Tenno !")
+})
 
 bot.login(process.env.BOT_TOKEN)
 
