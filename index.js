@@ -17,7 +17,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "info")) {
-        message.delete(500)
+        //message.delete(500)
         let embed = new Discord.RichEmbed()
             .setTitle("Info du bot")
             //.setThumbnail("")
@@ -33,7 +33,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "degats")) {
-        message.delete(500)
+        //message.delete(500)
         if (message.channel.name != "commande-bot") {
             message.channel.send(message.author + ", merci de regarder le channel #commande-bot")
         }
@@ -73,7 +73,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "crit")) {
-        message.delete(500)
+        //message.delete(500)
         if (message.channel.name != "commande-bot") {
             message.channel.send(message.author + ", merci de regarder le channel #commande-bot")
         }
@@ -113,7 +113,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "armor")) {
-        message.delete(500)
+        //message.delete(500)
         if (message.channel.name != "commande-bot") {
             message.channel.send(message.author + ", merci de regarder le channel #commande-bot")
         }
@@ -185,7 +185,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "wiki")) {
-        message.delete(500)
+        //message.delete(500)
         var msg = ""
         msg = majuscule(message.content, msg)
         msg2 = msg.split(" ").join("_")
@@ -213,7 +213,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "cetus")) {
-        message.delete(500)
+        //message.delete(500)
         axios.get('https://api.warframestat.us/pc/cetusCycle')
             .then((response) => {
                 //console.log(response)
@@ -244,7 +244,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "prix")) {
-        message.delete(500)
+        //message.delete(500)
         var chaine = message.content.toLowerCase().split(" ").slice(1)
         var string = chaine.join(' ')
         var wiki = chaine.join('_')
@@ -265,12 +265,12 @@ bot.on('message', message => {
                 message.channel.send(embed)
                 //TODO embeds
             }).catch(function () {
-                console.log("L'item est introuvable")
+                message.guild.channels.find("name", "commande-bot").send("L'item est introuvable")
             })
     }
 
     if (message.content.startsWith(prefix + "fissures")) {
-        message.delete(500)
+        //message.delete(500)
         axios.get("https://api.warframestat.us/pc/fissures")
             .then((response) => {
                 //console.log(response)
