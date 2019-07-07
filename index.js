@@ -17,7 +17,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "info")) {
-        message.delete(500)
+        //message.delete(500)
         let embed = new Discord.RichEmbed()
         .setTitle("Info du bot")
         //.setThumbnail("")
@@ -33,7 +33,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "degats")) {
-        message.delete(500)
+        //message.delete(500)
         message.channel.send("Pour utiliser **/degats**, il est nécessaire d\'avoir ces informations : le montant exact de chaque type de dégât qu\'inflige votre arme.\nAvez-vous tout cela ? **__Oui/Non__**")
         .then(function(){
             message.channel.awaitMessages(() => message.content, {
@@ -70,7 +70,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "crit")) {
-        message.delete(500)
+        //message.delete(500)
         message.channel.send('Pour utiliser **/crit**, il est nécessaire d\'avoir ces informations : le montant exact de chaque type de dégât qu\'inflige votre arme ou le total (obtenable grâce a la commande **/degats**), le multiplicateur critique et le tiers de critique souhaité.\nAvez-vous tout cela ? **__Oui/Non__**')
         .then(function(){
             message.channel.awaitMessages(() => message.content, {
@@ -107,7 +107,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "armor")){
-        message.delete(500)
+        //message.delete(500)
         message.channel.send("Pour utiliser **/armor**, il est nécessaire d'avoir ces informations : le niveau de base de l'ennemi (obtenable sur le wiki), le niveau de l'ennemi et l'armure de base de l'ennemi (obtenable via le Codex ingame) .\nAvez-vous tout cela ? **__Oui/Non__**")
         .then(function(){
             message.channel.awaitMessages(() => message.content, {
@@ -145,7 +145,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "sondage")) {
-        message.delete(1000)
+        //message.delete(1000)
         .then(function(){
             let args = message.content.split(" ").slice(1)
             let thingToEcho = args.join(" ")
@@ -176,7 +176,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "wiki")){
-        message.delete(500)
+        //message.delete(500)
         var msg = ""
         msg = majuscule(message.content, msg)
         msg2 = msg.split(" ").join("_")
@@ -204,7 +204,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "cetus")){
-        message.delete(500)
+        //message.delete(500)
         axios.get('https://api.warframestat.us/pc/cetusCycle')
         .then((response) => {
             //console.log(response)
@@ -235,7 +235,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "prix")){
-        message.delete(500)
+        //message.delete(500)
         var chaine = message.content.toLocaleLowerCase().split(" ").slice(1)
         var string = chaine.join(' ')
         var wiki = chaine.join('_')
@@ -255,7 +255,7 @@ bot.on('message', message => {
             message.guild.channels.find("name", "commande-bot").send(embed)
             //TODO embeds
         }).catch(function(){
-            console.log("erreur 404")
+            message.guild.channels.find("name", "commande-bot").send("erreur 404")
         })
         /*axios.get('https://api.nexushub.co/warframe/v1/items/' + stringWfNexus + '/prices')
             .then((response) => {
@@ -290,7 +290,7 @@ bot.on('message', message => {
     }
 
     if(message.content.startsWith(prefix + "fissures")){
-        message.delete(500)
+        //message.delete(500)
         axios.get("https://api.warframestat.us/pc/fissures")
         .then((response) => {
             //console.log(response)
