@@ -154,7 +154,7 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "sondage")) {
-        //message.delete(1000)
+        message.delete(1000)
             .then(function () {
                 let args = message.content.split(" ").slice(1)
                 let thingToEcho = args.join(" ")
