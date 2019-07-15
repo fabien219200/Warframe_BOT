@@ -237,9 +237,8 @@ bot.on('message', message => {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
                     //.setThumbnail("")
-                    .setDescription("Contactez un @Developpeur pour corriger ce problème.")
+                    .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
-
             })
     }
 
@@ -253,7 +252,7 @@ bot.on('message', message => {
 
         axios.get('https://api.warframe.market/v1/items/' + stringWfMarket + '/statistics')
             .then((response) => {
-                console.log(response)
+                //console.log(response)
                 var res = response.data.payload.statistics_closed["48hours"]
                 var taille = res.length
                 var prix_moyen = res[taille - 1].avg_price
@@ -299,7 +298,7 @@ bot.on('message', message => {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
                     //.setThumbnail("")
-                    .setDescription("Contactez un @Developpeur pour corriger ce problème.")
+                    .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
             })
     }
@@ -323,8 +322,37 @@ bot.on('message', message => {
                     .addField(response.data.activeChallenges[8].title + " (" + response.data.activeChallenges[8].reputation + ") :", response.data.activeChallenges[8].desc)
                     .addField(response.data.activeChallenges[9].title + " (" + response.data.activeChallenges[9].reputation + ") :", response.data.activeChallenges[9].desc)
                 message.guild.channels.find("name", "commande-bot").send(embed)
+            }).catch(function () {
+                let embed = new Discord.RichEmbed()
+                    .setTitle("Une erreur est survenue !")
+                    //.setThumbnail("")
+                    .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
+                message.guild.channels.find("name", "commande-bot").send(embed)
             })
     }
+    
+    if (message.content.startsWith(prefix + "sortie")) {
+        axios.get("https://api.warframestat.us/pc/sortie")
+            .then((response) => {
+                console.log(response)
+                var sortie = response.data
+                let embed = new Discord.RichEmbed()
+                    .setTitle("**Sortie actuelle : " + sortie.faction + "\nBoss actuel : " + sortie.boss + "** ")
+                    .setURL("https://warframe.fandom.com/wiki/Sortie")
+                    .setColor('#ffd642')
+                    .addField("Mission 1 : " + sortie.variants[0].missionType + ", " + sortie.variants[0].node, sortie.variants[0].modifier + "\n**__Description__** : " + sortie.variants[0].modifierDescription)
+                    .addField("Mission 2 : " + sortie.variants[1].missionType + ", " + sortie.variants[1].node, sortie.variants[1].modifier + "\n**__Description__** : " + sortie.variants[1].modifierDescription)
+                    .addField("Mission 3 : " + sortie.variants[2].missionType + ", " + sortie.variants[2].node, sortie.variants[2].modifier + "\n**__Description__** : " + sortie.variants[2].modifierDescription)
+                    .setThumbnail("https://vignette.wikia.nocookie.net/warframe/images/1/15/Sortie_b.png/revision/latest?cb=20151217134250")
+                message.guild.channels.find("name", "commande-bot").send(embed)
+            }).catch(function () {
+                let embed = new Discord.RichEmbed()
+                    .setTitle("Une erreur est survenue !")
+                    //.setThumbnail("")
+                    .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
+                message.guild.channels.find("name", "commande-bot").send(embed)
+            })
+    }    
 
     if (message.content.startsWith(prefix + "drops")) {
         axios.get("https://api.warframestat.us/drops/search/survival")
