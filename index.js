@@ -344,6 +344,7 @@ bot.on('message', message => {
                     .addField("Mission 2 : " + sortie.variants[1].missionType + ", " + sortie.variants[1].node, sortie.variants[1].modifier + "\n**__Description__** : " + sortie.variants[1].modifierDescription)
                     .addField("Mission 3 : " + sortie.variants[2].missionType + ", " + sortie.variants[2].node, sortie.variants[2].modifier + "\n**__Description__** : " + sortie.variants[2].modifierDescription)
                     .setThumbnail("https://vignette.wikia.nocookie.net/warframe/images/1/15/Sortie_b.png/revision/latest?cb=20151217134250")
+                    .setFooter("Expire dans " + sortie.eta)
                 message.guild.channels.find("name", "commande-bot").send(embed)
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
