@@ -178,16 +178,13 @@ bot.on('message', message => {
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Erreur de syntaxe !")
-                    //.setThumbnail("")
                     .setDescription("Il faut un message derière **/sondage** pour executer la commande")
                 message.channel.send(embed)
             })
     }
 
     if (message.content.startsWith(prefix + "wiki")) {
-        //message.delete(500)
-        var msg = ""
-        msg = majuscule(message.content, msg)
+        var msg = majuscule(message.content, "")
         msg2 = msg.split(" ").join("_")
         let embed = new Discord.RichEmbed()
             .setTitle("**__Wiki__**")
@@ -213,10 +210,8 @@ bot.on('message', message => {
     }
 
     if (message.content.startsWith(prefix + "cetus")) {
-        //message.delete(500)
         axios.get('https://api.warframestat.us/pc/cetusCycle')
             .then((response) => {
-                //console.log(response)
                 var chaine = response.data.shortString.split(" ")
                 if (response.data.isDay == true) {
                     let embed = new Discord.RichEmbed()
@@ -236,33 +231,29 @@ bot.on('message', message => {
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
-                    //.setThumbnail("")
                     .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
             })
     }
 
     if (message.content.startsWith(prefix + "prix")) {
-        //message.delete(500)
-        var chaine = message.content.toLowerCase().split(" ").slice(1)
-        var string = chaine.join(' ')
-        var wiki = chaine.join('_')
-        stringWfNexus = string.trim()
-        stringWfMarket = wiki.trim()
+        var string = majuscule(message.content, "")
+        var wiki = string.split(" ").join("_")
+        //stringWfNexus = string.trim()
+        stringWfMarket = wiki.toLowerCase().trim()
 
         axios.get('https://api.warframe.market/v1/items/' + stringWfMarket + '/statistics')
             .then((response) => {
-                //console.log(response)
                 var res = response.data.payload.statistics_closed["48hours"]
                 var taille = res.length
                 var prix_moyen = res[taille - 1].avg_price
-                //message.channel.send(prix_moyen)
                 let embed = new Discord.RichEmbed()
                     .setTitle("Prix (warframe.market)")
-                    .setURL("https://warframe.market/")
-                    .addField(string, prix_moyen)
-                message.channel.send(embed)
-                //TODO embeds
+                    .setURL("https://warframe.market/items/" + stringWfMarket)
+                    .setThumbnail("https://vignette.wikia.nocookie.net/warframe/images/e/e7/PlatinumLarge.png/revision/latest?cb=20130728181159")
+                    .setColor('#0101F2')
+                    .addField(string, "Vous pouvez espérer vendre **" + string + "** pour environ **" + prix_moyen + " Pl** sur le __tchat d'Echange__ InGame")
+                message.guild.channels.find("name", "commande-bot").send(embed)
             }).catch(function () {
                 message.guild.channels.find("name", "commande-bot").send("L'item est introuvable")
             })
@@ -297,7 +288,6 @@ bot.on('message', message => {
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
-                    //.setThumbnail("")
                     .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
             })
@@ -306,7 +296,6 @@ bot.on('message', message => {
     if (message.content.startsWith(prefix + "nightwaves")) {
         axios.get("https://api.warframestat.us/pc/nightwave")
             .then((response) => {
-                //console.log(response.data)
                 let embed = new Discord.RichEmbed()
                     .setTitle("**__Nightwaves__**")
                     .setURL("https://semlar.com/challenges")
@@ -325,7 +314,6 @@ bot.on('message', message => {
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
-                    //.setThumbnail("")
                     .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
             })
@@ -334,7 +322,6 @@ bot.on('message', message => {
     if (message.content.startsWith(prefix + "sortie")) {
         axios.get("https://api.warframestat.us/pc/sortie")
             .then((response) => {
-                console.log(response)
                 var sortie = response.data
                 let embed = new Discord.RichEmbed()
                     .setTitle("**Sortie actuelle : " + sortie.faction + "\nBoss actuel : " + sortie.boss + "** ")
@@ -349,30 +336,19 @@ bot.on('message', message => {
             }).catch(function () {
                 let embed = new Discord.RichEmbed()
                     .setTitle("Une erreur est survenue !")
-                    //.setThumbnail("")
                     .setDescription("Contactez un " + message.guild.roles.find("name", "Developper").name + " pour corriger ce problème.")
                 message.guild.channels.find("name", "commande-bot").send(embed)
             })
     }    
 
-    if (message.content.startsWith(prefix + "drops")) {
-        axios.get("https://api.warframestat.us/drops/search/survival")
-            .then((response) => {
-                console.log(response.data[1000])
-            })
-    }
-
 })
 
 bot.on('raw', event => {
-    var eventName = event.t
-    //console.log(eventName)
+    //var eventName = event.t
     if (eventName == 'MESSAGE_REACTION_ADD') {
         if (bot.channels.get(event.d.channel_id).messages.has(event.d.message_id)) {
-            //console.log("cached")
             return
         } else {
-            //console.log("not cached")
             bot.channels.get(event.d.channel_id).fetchMessage(event.d.message_id)
                 .then(msg => {
                     var msgReaction = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id)
@@ -384,10 +360,8 @@ bot.on('raw', event => {
 
     if (eventName == 'MESSAGE_REACTION_REMOVE') {
         if (bot.channels.get(event.d.channel_id).messages.has(event.d.message_id)) {
-            //console.log("cached")
             return
         } else {
-            //console.log("not cached")
             bot.channels.get(event.d.channel_id).fetchMessage(event.d.message_id)
                 .then(msg => {
                     var msgReaction = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id)
@@ -399,7 +373,6 @@ bot.on('raw', event => {
 })
 
 bot.on('messageReactionAdd', (reaction, user) => {
-    //console.log(reaction)
     switch (reaction.emoji.name) {
         case "TheDivision":
             var roleName = "The Division 2"
